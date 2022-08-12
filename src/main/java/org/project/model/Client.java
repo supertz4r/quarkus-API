@@ -8,7 +8,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Client {
+@Table(name="CLIENT")
+@NamedNativeQueries({
+    @NamedNativeQuery(name="CONSULTAR_CLIENT", query = "SELECT id, name, vatNumber, email from CLIENT", resultClass = Client.class),
+    @NamedNativeQuery(name="CONSULTAR_CLIENT_ID", query = "SELECT id, name, vatNumber, email from CLIENT WHERE id = :idClient", resultClass = Client.class),
+    @NamedNativeQuery(name="INSERIR_CLIENT", query = "INSERT INTO CLIENT (name, vatNumber, email) VALUES (:nomeClient, :vatNumberClient, :emailClient);"),
+    @NamedNativeQuery(name="ATUALIZAR_CLIENT", query = "UPDATE CLIENT SET nome = :nomeClient, vatNumber = :vatNumberClient, email = :emailClient WHERE id = :idClient "),
+    @NamedNativeQuery(name="EXCLUIR_CLIENT", query = "DELETE CLIENT WHERE  id = :idClient"),
+})
+public class Client extends PanacheEntity {
 
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)

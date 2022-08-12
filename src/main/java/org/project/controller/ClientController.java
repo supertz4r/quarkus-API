@@ -30,61 +30,98 @@ import org.project.repository.ClientRepository;
 @Path("/client")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Traced
 public class ClientController {
     
     @Inject
-    private ClientRepository clientRepository;
+    ClientService service;
+
+    @Inject
+    ClientDao dao;
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     @Path("/list")
-    public List<ClientDto> listaClients() {
-        List<Client> clients = (List<Client>) clientRepository.findAll();
+    @Operation(summary = "Listar Clients ",
+            description = "Retorna uma lista de client")
+    @APIResponse(
+            responseCode = "200",
+            description = "Client",
+            content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Client.class, type = SchemaType.ARRAY))})
+    public List<ClientDto> listaClients() throws Exception {
+        List<Client> clients = (List<Client>) dao.buscaClients();
         return ClientDto.convert(clients);
+
+        //return Response.status(Response.Status.OK).entity(dao.buscaClients()).build();   e mudar o retorno para Response
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
-    public Response clientById(final @PathParam("id") long id) {
-        Client client = clientRepository.findById(id).get();
-        return Response.status(Response.Status.OK).entity(new ClientDto(client)).build();
+    @Operation(summary = "Busca Client por ID",
+            description = "Retorna um client")
+    @APIResponse(
+            responseCode = "200",
+            description = "Client",
+            content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Client.class))})
+    public Response clientById(final @PathParam("id") long id) throws Exception {
+        /* Client client = clientRepository.findById(id).get();
+        return Response.status(Response.Status.OK).entity(new ClientDto(client)).build(); */
+        return  Response.status(Response.Status.OK).entity(dao.buscarClient(id)).build();
     }
 
     @POST
-    @Transactional
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response cadastrar(@Valid ClientForm form, UriBuilder uriBuilder) {
+    @Operation(summary = "Incluir um client.",
+            description = "Incluir um client")
+    @APIResponse(
+            responseCode = "201",
+            description = "Client",
+            content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Client.class))})
+    public Response cadastrar(@Valid ClientForm form) throws Exception {
         Client client = form.convert();
-        clientRepository.save(client);
+        //clientRepository.save(client);
 
-        URI uri = uriBuilder.path("/client/{id}").build(client.getId());
-        return Response.status((StatusType) UriBuilder.fromUri(uri)).entity(new ClientDto(client)).build();
+        return Response.status(Response.Status.CREATED).entity(service.inserirClient(client)).build();
     }
 
     @PUT
     @Path("/{id}")
-    @Transactional
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response atualizar(final @PathParam("id") long id, @Valid ClientForm form) {
-        Optional<Client> optional = clientRepository.findById(id);
+    @Operation(summary = "Atualizar um Client",
+            description = "Atualização de um client")
+    @APIResponse(
+            responseCode = "200",
+            description = "Client",
+            content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Client.class))})
+    public Response atualizar(final @PathParam("id") long id, @Valid ClientForm form) throws Exception {
+        /* Optional<Client> optional = clientRepository.findById(id);
         if (optional.isPresent()) {
             Client client = form.convert();
             return Response.status(Response.Status.OK).entity(new ClientDto(client)).build();
         }
-        return Response.status(Response.Status.NOT_FOUND).build();
+        return Response.status(Response.Status.NOT_FOUND).build(); */
+        Client client = form.convert();
+        return Response.status(Response.Status.OK).entity(service.atualizarClient(id, client)).build();
     }
 
     @DELETE
     @Path("/{id}")
     @Transactional
-    public Response remover(final @PathParam("id") long id) {
-        Optional<Client> optional = clientRepository.findById(id);
+    @Operation(summary = "Remove um client",
+            description = "Remove um client pelo ID informado")
+    @APIResponse(
+            responseCode = "200",
+            description = "Client",
+            content = { @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Client.class))})
+    public Response remover(final @PathParam("id") long id) throws Exception {
+        /* Optional<Client> optional = clientRepository.findById(id);
         if (optional.isPresent()) {
             clientRepository.deleteById(id);
             return Response.status(Response.Status.OK).build();
         }
-        return Response.status(Response.Status.NOT_FOUND).build();
+        return Response.status(Response.Status.NOT_FOUND).build(); */
+        return Response.status(Response.Status.OK).entity(dao.excluirClient(id)).build();
     }
 }
