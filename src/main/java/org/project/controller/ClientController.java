@@ -1,12 +1,12 @@
 package org.project.controller;
 
-import java.net.URI;
 import java.util.List;
-import java.util.Optional;
+
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -18,13 +18,16 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.Response.StatusType;
 
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.opentracing.Traced;
 import org.project.controller.dto.ClientDto;
 import org.project.controller.form.ClientForm;
 import org.project.model.Client;
-import org.project.repository.ClientRepository;
+import org.project.service.ClientService;
+import org.project.dao.ClientDao;
 
 @RequestScoped
 @Path("/client")
@@ -48,11 +51,11 @@ public class ClientController {
             description = "Client",
             content = { @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Client.class, type = SchemaType.ARRAY))})
-    public List<ClientDto> listaClients() throws Exception {
-        List<Client> clients = (List<Client>) dao.buscaClients();
-        return ClientDto.convert(clients);
+    public Response listaClients() throws Exception {
+        /* List<Client> clients = (List<Client>) dao.buscaClients();
+        return ClientDto.convert(clients); */
 
-        //return Response.status(Response.Status.OK).entity(dao.buscaClients()).build();   e mudar o retorno para Response
+        return Response.status(Response.Status.OK).entity(dao.buscaClients()).build();
     }
 
     @GET
@@ -62,7 +65,7 @@ public class ClientController {
     @APIResponse(
             responseCode = "200",
             description = "Client",
-            content = { @Content(mediaType = "application/json",
+            content = { @Content (mediaType = "application/json",
                     schema = @Schema(implementation = Client.class))})
     public Response clientById(final @PathParam("id") long id) throws Exception {
         /* Client client = clientRepository.findById(id).get();
@@ -107,7 +110,6 @@ public class ClientController {
 
     @DELETE
     @Path("/{id}")
-    @Transactional
     @Operation(summary = "Remove um client",
             description = "Remove um client pelo ID informado")
     @APIResponse(

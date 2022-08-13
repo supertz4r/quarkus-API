@@ -6,20 +6,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 
 @Entity
 @Table(name="CLIENT")
 @NamedNativeQueries({
     @NamedNativeQuery(name="CONSULTAR_CLIENT", query = "SELECT id, name, vatNumber, email from CLIENT", resultClass = Client.class),
     @NamedNativeQuery(name="CONSULTAR_CLIENT_ID", query = "SELECT id, name, vatNumber, email from CLIENT WHERE id = :idClient", resultClass = Client.class),
-    @NamedNativeQuery(name="INSERIR_CLIENT", query = "INSERT INTO CLIENT (name, vatNumber, email) VALUES (:nomeClient, :vatNumberClient, :emailClient);"),
+    @NamedNativeQuery(name="INSERIR_CLIENT", query = "INSERT INTO CLIENT (id, name, vatNumber, email) VALUES (:idClient, :nomeClient, :vatNumberClient, :emailClient);"),
     @NamedNativeQuery(name="ATUALIZAR_CLIENT", query = "UPDATE CLIENT SET nome = :nomeClient, vatNumber = :vatNumberClient, email = :emailClient WHERE id = :idClient "),
     @NamedNativeQuery(name="EXCLUIR_CLIENT", query = "DELETE CLIENT WHERE  id = :idClient"),
 })
-public class Client extends PanacheEntity {
+public class Client {
 
     @Id 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private int age;

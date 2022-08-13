@@ -1,11 +1,13 @@
-import io.opentracing.Tracer;
-import org.eclipse.microprofile.opentracing.Traced;
+package org.project.service;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import java.time.LocalDate;
-import java.time.ZoneId;
+
+import java.sql.SQLException;
+
+import org.eclipse.microprofile.opentracing.Traced;
+import org.project.dao.ClientDao;
 import org.project.model.Client;
 
 @RequestScoped
@@ -30,4 +32,10 @@ public class ClientService {
 
         return dao.excluirClient(id);
     }
+
+    @Transactional(rollbackOn = Exception.class)
+    public Object atualizarClient(long id, Client client) throws SQLException{
+        return dao.atualizarClient(client);
+    }
+
 }

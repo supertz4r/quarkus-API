@@ -1,12 +1,7 @@
 package org.project.dao;
-
-import org.project.controller.dto.ClientDto;
-import org.project.controller.form.ClientForm;
 import org.project.model.Client;
-import org.project.repository.ClientRepository;
 
 import org.eclipse.microprofile.opentracing.Traced;
-
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -15,6 +10,8 @@ import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +22,7 @@ public class ClientDao {
     @PersistenceContext
     EntityManager em;
 
-    public List<Client> buscaClients() throws ErroSqlException {
+    public List<Client> buscaClients() throws SQLException {
         String nameQuery = "CONSULTAR_CLIENT";
 
         TypedQuery<Client> query = em
@@ -36,11 +33,11 @@ public class ClientDao {
         } catch (NoResultException e){
             return new ArrayList<>();
         } catch (PersistenceException e){
-            throw new ErroSqlException(e);
+            throw new SQLException(e);
         }
     }
 
-    public Client buscarClient(Long id) throws ErroSqlException {
+    public Client buscarClient(Long id) throws SQLException {
         String nameQuery = "CONSULTAR_CLIENT_ID";
 
         TypedQuery<Client> query = em
@@ -53,18 +50,18 @@ public class ClientDao {
         } catch (NoResultException e){
             return null;
         } catch (PersistenceException e){
-            throw new ErroSqlException(e);
+            throw new SQLException(e);
         }
     }
 
     @Transactional
-    public int inserirClient(Client client) throws ErroSqlException {
+    public int inserirClient(Client client) throws SQLException {
         String nameQuery = "INSERIR_CLIENT";
         return insertOrUpdate(client, nameQuery);
     }
 
     @Transactional
-    public int excluirClient(long id) throws ErroSqlException {
+    public int excluirClient(long id) throws SQLException {
         String nameQuery = "EXCLUIR_CLIENT";
 
         Query query = em
@@ -77,18 +74,18 @@ public class ClientDao {
         } catch (NoResultException e){
             return 0;
         } catch (PersistenceException e){
-            throw new ErroSqlException(e);
+            throw new SQLException(e);
         }
     }
 
     @Transactional
-    public int atualizarClient(Client client) throws ErroSqlException {
+    public int atualizarClient(Client client) throws SQLException {
         String nameQuery = "ATUALIZAR_CLIENT";
         return insertOrUpdate(client, nameQuery);
     }
 
     @Transactional
-    private int insertOrUpdate(Client client, String nameQuery) throws ErroSqlException {
+    private int insertOrUpdate(Client client, String nameQuery) throws SQLException {
         Query query = em
                 .createNamedQuery(nameQuery);
 
@@ -103,7 +100,7 @@ public class ClientDao {
         } catch (NoResultException e) {
             return 0;
         } catch (PersistenceException e) {
-            throw new ErroSqlException(e);
+            throw new SQLException(e);
         }
     }
 

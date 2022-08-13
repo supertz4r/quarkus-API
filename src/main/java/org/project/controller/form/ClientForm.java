@@ -9,6 +9,10 @@ import javax.validation.constraints.Size;
 import org.project.model.Client;
 
 public class ClientForm {
+
+    @NotNull
+    private int id;
+
     @NotNull 
     @NotEmpty 
     @Size(min = 5, max = 100)
@@ -24,6 +28,14 @@ public class ClientForm {
     @NotNull 
     @NotEmpty
     private String email;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

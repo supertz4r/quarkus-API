@@ -44,14 +44,14 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-hibernate-orm-panache</artifactId>
     </dependency>
-    <dependency>
+    <!-- <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy</artifactId>
-    </dependency>
-    <dependency>
+    </dependency> -->
+    <!-- <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-jackson</artifactId>
-    </dependency>
+    </dependency> -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-spring-data-jpa</artifactId>
@@ -79,11 +79,22 @@
       <artifactId>resteasy-jackson2-provider</artifactId>
       <version>6.1.0.Final</version>
     </dependency>
-    <!-- <dependency>
+    <!-- https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations -->
+    <dependency>
+      <groupId>io.swagger.core.v3</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>2.2.2</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.eclipse.microprofile.opentracing/microprofile-opentracing-api -->
+    <dependency>
+      <groupId>org.eclipse.microprofile.opentracing</groupId>
+      <artifactId>microprofile-opentracing-api</artifactId>
+      <version>3.0</version>
+    </dependency>
+    <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
-    </dependency> -->
-
+    </dependency>
   </dependencies>
   <build>
     <plugins>
