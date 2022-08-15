@@ -31,6 +31,8 @@ public class Client {
     private String email;
 
     @ManyToOne
+    @JoinColumn(name = "codigo")
+    @Column(name = "categoria")
     private Categoria categoria;
 
     public Client() {}
