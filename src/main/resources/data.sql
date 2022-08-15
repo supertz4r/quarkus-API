@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS CLIENT (
 INSERT INTO CATEGORIA(codigo, nomeCategoria) VALUES (1, 'Programador');
 INSERT INTO CATEGORIA(codigo, nomeCategoria) VALUES (2, 'Comerciante');
 
-INSERT INTO CLIENT(id, name, age, vatNumber, email) VALUES (1, 'Jr', 24, 'BR122868440', 'jr@email.com', 1);
-INSERT INTO CLIENT(id, name, age, vatNumber, email) VALUES (2, 'Marta', 36, 'SP654895741', 'marta@email.com', 2);
-INSERT INTO CLIENT(id, name, age, vatNumber, email) VALUES (3, 'John', 64, 'EN398712453', 'john@email.com', 2);
-INSERT INTO CLIENT(id, name, age, vatNumber, email) VALUES (4, 'Susy', 29, 'RU199774800', 'susy@email.com', 1);
+INSERT INTO CLIENT(id, name, age, vatNumber, email, categoria) VALUES (1, 'Jr', 24, 'BR122868440', 'jr@email.com', 1);
+INSERT INTO CLIENT(id, name, age, vatNumber, email, categoria) VALUES (2, 'Marta', 36, 'SP654895741', 'marta@email.com', 2);
+INSERT INTO CLIENT(id, name, age, vatNumber, email, categoria) VALUES (3, 'John', 64, 'EN398712453', 'john@email.com', 2);
+INSERT INTO CLIENT(id, name, age, vatNumber, email, categoria) VALUES (4, 'Susy', 29, 'RU199774800', 'susy@email.com', 1);
