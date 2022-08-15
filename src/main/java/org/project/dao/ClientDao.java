@@ -37,7 +37,7 @@ public class ClientDao {
         }
     }
 
-    public Client buscarClient(Long id) throws SQLException {
+    public Client buscarClient(long id) throws SQLException {
         String nameQuery = "CONSULTAR_CLIENT_ID";
 
         TypedQuery<Client> query = em

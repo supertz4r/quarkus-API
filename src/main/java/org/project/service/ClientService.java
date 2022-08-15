@@ -23,7 +23,7 @@ public class ClientService {
     }
 
     @Transactional(rollbackOn = Exception.class)
-    public int excluirClient(Long id) throws SQLException {
+    public int excluirClient(long id) throws SQLException {
         // Exemplo de regra para lancar exceção
         /* if(id == 1){
             throw new ErroNegocialException(ErrosSistema.ERRO_EXCLUSAO_CLIENT.get().addVariavel(
