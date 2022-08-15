@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.project.model.Categoria;
 import org.project.model.Client;
 
 public class ClientForm {
@@ -28,6 +29,9 @@ public class ClientForm {
     @NotNull 
     @NotEmpty
     private String email;
+
+    @NotNull
+    private Categoria categoria;
 
     public int getId() {
         return id;
@@ -69,7 +73,15 @@ public class ClientForm {
         this.email = email;
     }
 
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
     public Client convert() {
-        return new Client(name, age, vatNumber, email);
+        return new Client(name, age, vatNumber, email, categoria);
     }
 }

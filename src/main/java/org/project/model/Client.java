@@ -14,10 +14,10 @@ import javax.persistence.NamedNativeQuery;
 @Entity
 @Table(name="CLIENT")
 @NamedNativeQueries({
-    @NamedNativeQuery(name="CONSULTAR_CLIENT", query = "SELECT id, name, vatNumber, email from CLIENT", resultClass = Client.class),
-    @NamedNativeQuery(name="CONSULTAR_CLIENT_ID", query = "SELECT id, name, vatNumber, email from CLIENT WHERE id = :idClient", resultClass = Client.class),
-    @NamedNativeQuery(name="INSERIR_CLIENT", query = "INSERT INTO CLIENT (id, name, vatNumber, email) VALUES (:idClient, :nomeClient, :vatNumberClient, :emailClient);"),
-    @NamedNativeQuery(name="ATUALIZAR_CLIENT", query = "UPDATE CLIENT SET nome = :nomeClient, vatNumber = :vatNumberClient, email = :emailClient WHERE id = :idClient "),
+    @NamedNativeQuery(name="CONSULTAR_CLIENT", query = "SELECT id, name, vatNumber, email, categoria from CLIENT", resultClass = Client.class),
+    @NamedNativeQuery(name="CONSULTAR_CLIENT_ID", query = "SELECT id, name, vatNumber, email, categoria from CLIENT WHERE id = :idClient", resultClass = Client.class),
+    @NamedNativeQuery(name="INSERIR_CLIENT", query = "INSERT INTO CLIENT (id, name, vatNumber, email, categoria) VALUES (:idClient, :nomeClient, :vatNumberClient, :emailClient, categoriaClient);"),
+    @NamedNativeQuery(name="ATUALIZAR_CLIENT", query = "UPDATE CLIENT SET nome = :nomeClient, vatNumber = :vatNumberClient, email = :emailClient, categoria = :categoriaClient WHERE id = :idClient "),
     @NamedNativeQuery(name="EXCLUIR_CLIENT", query = "DELETE CLIENT WHERE  id = :idClient"),
 })
 public class Client {
@@ -30,13 +30,17 @@ public class Client {
     private String vatNumber;
     private String email;
 
+    @ManyToOne
+    private Categoria categoria;
+
     public Client() {}
 
-    public Client(String name, int age, String vatNumber, String email) {
+    public Client(String name, int age, String vatNumber, String email, Categoria categoria) {
         this.name = name;
         this.age = age;
         this.vatNumber = vatNumber;
         this.email = email;
+        this.categoria = categoria;
     }
 
     @Override
@@ -86,6 +90,14 @@ public class Client {
 
     public String getEmail() {
         return email;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
     public void setEmail(String email) {

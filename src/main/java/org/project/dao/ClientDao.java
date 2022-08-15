@@ -93,6 +93,7 @@ public class ClientDao {
         query.setParameter("nomeClient", client.getName());
         query.setParameter("vatNumberClient", client.getVatNumber());
         query.setParameter("emailClient", client.getEmail());
+        query.setParameter("categoriaClient", client.getCategoria().getCodigo());
 
 
         try {

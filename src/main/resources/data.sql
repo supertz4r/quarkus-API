@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS CATEGORIA (
-   id INT NOT NULL,
-   nome VARCHAR(20) NOT NULL,
-   PRIMARY KEY (id)
+   codigo INT NOT NULL,
+   nomeCategoria VARCHAR(20) NOT NULL,
+   PRIMARY KEY (codigo)
 );
 
 CREATE TABLE IF NOT EXISTS CLIENT (
@@ -10,10 +10,15 @@ CREATE TABLE IF NOT EXISTS CLIENT (
    age INT NOT NULL,
    vatNumber VARCHAR(11) NOT NULL,
    email VARCHAR(20) NOT NULL,
-   PRIMARY KEY (id)
+   categoria INT NOT NULL,
+   PRIMARY KEY (id),
+   FOREIGN KEY (categoria) REFERENCES CATEGORIA(codigo)
 );
 
-INSERT INTO CLIENT(id, name, age, vatNumber, email) VALUES (1, 'Jr', 24, 'BR122868440', 'jr@email.com');
-INSERT INTO CLIENT(id, name, age, vatNumber, email) VALUES (2, 'Marta', 36, 'SP654895741', 'marta@email.com');
-INSERT INTO CLIENT(id, name, age, vatNumber, email) VALUES (3, 'John', 64, 'EN398712453', 'john@email.com');
-INSERT INTO CLIENT(id, name, age, vatNumber, email) VALUES (4, 'Susy', 29, 'RU199774800', 'susy@email.com');
+INSERT INTO CATEGORIA(codigo, nomeCategoria) VALUES (1, 'Programador');
+INSERT INTO CATEGORIA(codigo, nomeCategoria) VALUES (2, 'Comerciante');
+
+INSERT INTO CLIENT(id, name, age, vatNumber, email) VALUES (1, 'Jr', 24, 'BR122868440', 'jr@email.com', 1);
+INSERT INTO CLIENT(id, name, age, vatNumber, email) VALUES (2, 'Marta', 36, 'SP654895741', 'marta@email.com', 2);
+INSERT INTO CLIENT(id, name, age, vatNumber, email) VALUES (3, 'John', 64, 'EN398712453', 'john@email.com', 2);
+INSERT INTO CLIENT(id, name, age, vatNumber, email) VALUES (4, 'Susy', 29, 'RU199774800', 'susy@email.com', 1);
